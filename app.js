@@ -16,7 +16,9 @@ class Calculator {
     this.operaton = undefined;
   }
 
-  delete() {}
+  delete() {
+    this.currentOperand = this.currentOperand.toString().slice(0, -1);
+  }
 
   // when a number is clicked it will be added to the screen
   appendNumber(number) {
@@ -26,17 +28,46 @@ class Calculator {
 
   //  when operation * - / s clicked
   chooseOperation(operaton) {
+    if (this.currentOperand === "") return;
+    if (this.previousOperand != "") {
+      this.compute();
+    }
     this.operaton = operaton;
     this.previousOperand = this.currentOperand;
     this.currentOperand = " ";
   }
 
   // take values and compute a single value to be displayed
-  compute() {}
+  compute() {
+    let computation;
+    const prev = parseFloat(this.previousOperand);
+    const current = parseFloat(this.currentOperand);
+    if (isNaN(prev) || isNaN(current)) return;
+    switch (this.operaton) {
+      case "+":
+        computation = prev + current;
+        break;
+      case "-":
+        computation = prev - current;
+        break;
+      case "*":
+        computation = prev * current;
+        break;
+      case "/":
+        computation = prev / current;
+        break;
+      default:
+        return;
+    }
+    this.currentOperand = computation;
+    this.operaton = undefined;
+    this.previousOperand = "";
+  }
 
   // update or values inside output
   updateDisplay() {
     this.currentOperandTExtElement.innerText = this.currentOperand;
+    this.previousOperandTextElement.innerText = this.previousOperand;
   }
 }
 
@@ -68,4 +99,14 @@ operationButtons.forEach(button => {
     calculator.chooseOperation(button.innerText);
     calculator.updateDisplay();
   });
+});
+
+equalsButtons.addEventListener("click", button => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+allClearButtons.addEventListener("click", button => {
+  calculator.clear();
+  calculator.updateDisplay();
 });
