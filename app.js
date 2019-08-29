@@ -63,11 +63,37 @@ class Calculator {
     this.operaton = undefined;
     this.previousOperand = "";
   }
+  getDisplayNumber(number) {
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split("."));
+    const decimalDigits = stringNumber.split(".")[1];
+    let intigetDsplay;
+    if (isNaN(integerDigits)) {
+      intigetDsplay = "";
+    } else {
+      intigetDsplay = integerDigits.toLocaleString("en", {
+        maximumFractionDigits: 0
+      });
+    }
+    if (decimalDigits != null) {
+      return `${intigetDsplay}.${decimalDigits}`;
+    } else {
+      return intigetDsplay;
+    }
+  }
 
   // update or values inside output
   updateDisplay() {
-    this.currentOperandTExtElement.innerText = this.currentOperand;
-    this.previousOperandTextElement.innerText = this.previousOperand;
+    this.currentOperandTExtElement.innerText = this.getDisplayNumber(
+      this.currentOperand
+    );
+    if (this.operaton != null) {
+      this.previousOperandTextElement.innerText = `${this.getDisplayNumber(
+        this.previousOperand
+      )} ${this.operaton}`;
+    } else {
+      this.previousOperandTextElement.innerText = " ";
+    }
   }
 }
 
@@ -108,5 +134,10 @@ equalsButtons.addEventListener("click", button => {
 
 allClearButtons.addEventListener("click", button => {
   calculator.clear();
+  calculator.updateDisplay();
+});
+
+deleteButtons.addEventListener("click", button => {
+  calculator.delete();
   calculator.updateDisplay();
 });
