@@ -9,6 +9,8 @@ body {
   padding: 0;
   margin: 0;
   background: linear-gradient(to right, #ccc, rgb(71, 34, 34));
+  height: 100vh;
+  /* position: absolute; */
 }
 
 .calculator-grid {
@@ -57,4 +59,26 @@ body {
 .output .current-operand {
   color: rgba(255, 255, 255, 0.75);
   font-size: 2.5rem;
+}
+
+/* page 1-------------------------- */
+#page1 {
+  background: rgb(73, 68, 146);
+  text-align: center;
+  margin-top: 20%;
+  /* position: absolute; */
+}
+
+.slide-in {
+  animation: slide-in 0.5s ease forwards;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    visibility: visible;
+  }
+  to {
+    transform: translateX(0%);
+  }
 }
